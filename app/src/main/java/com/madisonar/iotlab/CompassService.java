@@ -27,7 +27,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 
-import com.google.android.glass.sample.compass.R;
+import com.madisonar.iotlab.R;
 import com.google.android.glass.timeline.LiveCard;
 import com.google.android.glass.timeline.LiveCard.PublishMode;
 import com.madisonar.iotlab.model.Landmarks;

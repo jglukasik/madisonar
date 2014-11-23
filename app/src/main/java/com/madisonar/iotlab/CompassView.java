@@ -35,7 +35,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
-import com.google.android.glass.sample.compass.R;
+import com.madisonar.iotlab.R;
 import com.madisonar.iotlab.model.Place;
 import com.madisonar.iotlab.util.MathUtils;
 

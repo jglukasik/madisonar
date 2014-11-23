@@ -27,7 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
-import com.google.android.glass.sample.compass.R;
+import com.madisonar.iotlab.R;
 import com.google.android.glass.timeline.LiveCard;
 import com.google.android.glass.view.WindowUtils;
 

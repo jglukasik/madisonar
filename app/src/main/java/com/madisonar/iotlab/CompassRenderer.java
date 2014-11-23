@@ -29,7 +29,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.glass.sample.compass.R;
+import com.madisonar.iotlab.R;
 import com.google.android.glass.timeline.DirectRenderingCallback;
 import com.madisonar.iotlab.model.Landmarks;
 import com.madisonar.iotlab.model.Place;

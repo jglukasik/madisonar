@@ -19,7 +19,7 @@ package com.madisonar.iotlab.model;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.android.glass.sample.compass.R;
+import com.madisonar.iotlab.R;
 import com.madisonar.iotlab.util.MathUtils;
 
 import org.json.JSONArray;
