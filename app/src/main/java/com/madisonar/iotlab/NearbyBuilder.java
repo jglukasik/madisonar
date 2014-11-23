@@ -17,12 +17,12 @@ public class NearbyBuilder
     //private static final String TAG = NearbyBuilder.class.getSimpleName();
 
     private ArrayList<Building> mBuildings;
-    private double unixTime = 0;
+    private double mUnixTime = 0;
 
 
-    private double requestLat;
-    private double requestLng;
-    private int status = 1;
+    private double mRequestLat;
+    private double mRequestLng;
+    private int mStatus = 1;
 
     public class ResponseReceiver extends BroadcastReceiver{
         public static final String ACTION_RESP =
@@ -38,9 +38,9 @@ public class NearbyBuilder
                 JSONObject container = new JSONObject(rawJSON);
 
                 JSONObject response = container.getJSONObject("response");
-                double newTime = response.getDouble("unixTime");
-                double newRequestLat = response.getDouble("requestLat");
-                double newRequestLng = response.getDouble("requestLng");
+                double newTime = response.getDouble("mUnixTime");
+                double newRequestLat = response.getDouble("mRequestLat");
+                double newRequestLng = response.getDouble("mRequestLng");
                 JSONArray buildingJSONArray = response.getJSONArray("buildings");
                 for (int i = 0; i < buildingJSONArray.length(); i++)
                 {
@@ -56,13 +56,13 @@ public class NearbyBuilder
                     newBuildings.add(toAdd);
                 }
                 mBuildings = newBuildings;
-                unixTime = newTime;
-                requestLat = newRequestLat;
-                requestLng = newRequestLng;
+                mUnixTime = newTime;
+                mRequestLat = newRequestLat;
+                mRequestLng = newRequestLng;
             }
             catch (JSONException e)
             {
-                status = 1;
+                mStatus = 1;
             }
         }
     }
@@ -77,22 +77,22 @@ public class NearbyBuilder
 
 
     public int getStatus() {
-        return status;
+        return mStatus;
     }
 
     public double getUnixTime() {
-        return unixTime;
+        return mUnixTime;
     }
 
     public double getRequestLat() {
-        return requestLat;
+        return mRequestLat;
     }
 
     public double getRequestLng() {
-        return requestLng;
+        return mRequestLng;
     }
 
-    public ArrayList<Building> getmBuildings() {
+    public ArrayList<Building> getBuildings() {
         return mBuildings;
     }
 }
