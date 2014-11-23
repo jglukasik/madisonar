@@ -14,4 +14,4 @@
      limitations under the License.
 -->
 
-<trigger command="SHOW_A_COMPASS" />
+<trigger command="EXPLORE_NEARBY" />
