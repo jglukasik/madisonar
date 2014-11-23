@@ -29,7 +29,6 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.madisonar.iotlab.R;
 import com.google.android.glass.timeline.DirectRenderingCallback;
 import com.madisonar.iotlab.model.Landmarks;
 import com.madisonar.iotlab.model.Place;
@@ -72,6 +71,7 @@ public class CompassRenderer implements DirectRenderingCallback {
     private final RelativeLayout mTipsContainer;
     private final TextView mTipsView;
     private final OrientationManager mOrientationManager;
+    private final ResponseManager mResponseManager;
     private final Landmarks mLandmarks;
 
     private final OrientationManager.OnChangedListener mCompassListener =
@@ -108,7 +108,7 @@ public class CompassRenderer implements DirectRenderingCallback {
      * orientation manager, and landmark collection.
      */
     public CompassRenderer(Context context, OrientationManager orientationManager,
-                Landmarks landmarks) {
+                           ResponseManager responseManager, Landmarks landmarks) {
         LayoutInflater inflater = LayoutInflater.from(context);
         mLayout = (FrameLayout) inflater.inflate(R.layout.compass, null);
         mLayout.setWillNotDraw(false);
@@ -118,6 +118,7 @@ public class CompassRenderer implements DirectRenderingCallback {
         mTipsView = (TextView) mLayout.findViewById(R.id.tips_view);
 
         mOrientationManager = orientationManager;
+        mResponseManager = responseManager;
         mLandmarks = landmarks;
 
         mCompassView.setOrientationManager(mOrientationManager);

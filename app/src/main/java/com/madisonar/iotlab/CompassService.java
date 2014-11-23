@@ -72,6 +72,7 @@ public class CompassService extends Service {
     private final CompassBinder mBinder = new CompassBinder();
 
     private OrientationManager mOrientationManager;
+    private ResponseManager mResponseManager;
     private Landmarks mLandmarks;
     private TextToSpeech mSpeech;
 
@@ -98,6 +99,8 @@ public class CompassService extends Service {
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         mOrientationManager = new OrientationManager(sensorManager, locationManager);
+        mResponseManager = new ResponseManager(locationManager, mOrientationManager);
+        mResponseManager.forceUpdateCurrentRespTask();
         mLandmarks = new Landmarks(this);
     }
 
@@ -110,7 +113,7 @@ public class CompassService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (mLiveCard == null) {
             mLiveCard = new LiveCard(this, LIVE_CARD_TAG);
-            mRenderer = new CompassRenderer(this, mOrientationManager, mLandmarks);
+            mRenderer = new CompassRenderer(this, mOrientationManager, mResponseManager, mLandmarks);
 
             mLiveCard.setDirectRenderingEnabled(true).getSurfaceHolder().addCallback(mRenderer);
             mLiveCard.setVoiceActionEnabled(true);
@@ -146,6 +149,7 @@ public class CompassService extends Service {
 
         mSpeech = null;
         mOrientationManager = null;
+        mResponseManager = null;
         mLandmarks = null;
 
         super.onDestroy();

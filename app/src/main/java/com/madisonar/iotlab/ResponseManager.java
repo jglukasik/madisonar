@@ -3,6 +3,7 @@ package com.madisonar.iotlab;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.madisonar.iotlab.model.Building;
 import com.madisonar.iotlab.model.Response;
@@ -29,10 +30,15 @@ public class ResponseManager implements OrientationManager.OnChangedListener
 {
     private Response mCurrentResp;
     private LocationManager mLocationManager;
+    private OrientationManager mOrientationManager;
 
-    public ResponseManager(LocationManager locationManager)
+    public ResponseManager(LocationManager locationManager,
+                           OrientationManager orientationManager)
     {
+        Log.w("MADISONAR", "Constructor for ResponseManager called.");
         mLocationManager = locationManager;
+        mOrientationManager = orientationManager;
+        mOrientationManager.addOnChangedListener(this);
     }
 
 
@@ -41,10 +47,12 @@ public class ResponseManager implements OrientationManager.OnChangedListener
         @Override
         protected Response doInBackground(Location...params) {
             try{
+                Log.w("MADISONAR", "Started Background Job");
                 String rawJSON = madisonarPOST(params[0]);
                 return parseMadisonarJSON(rawJSON);
             }
             catch(Exception e){
+                Log.w("MADISONAR", "Error: ", e);
                 return null;
             }
         }
@@ -53,9 +61,12 @@ public class ResponseManager implements OrientationManager.OnChangedListener
         protected void onPostExecute(Response newResp) {
             if (newResp != null){
                 mCurrentResp = newResp;
+                for (Building b : mCurrentResp.getBuildings()){
+                    Log.w("MADISONAR", "Building found: "+b.getName());
+                }
             }
             else{
-                // Fail silently. Response not updated.
+                Log.w("MADISONAR", "Error: Response was null");
             }
         }
 
@@ -114,6 +125,16 @@ public class ResponseManager implements OrientationManager.OnChangedListener
                             response.getDouble("requestLng"));
             return toReturn;
         }
+    }
+
+    public void forceUpdateCurrentRespTask()
+    {
+        Location BascomHill = new Location("");
+        BascomHill.setLatitude(43.075171);
+        BascomHill.setLongitude(-89.402343);
+        new updateCurrentRespTask().execute(BascomHill);
+        // Edit out for demo purposes.
+        // new updateCurrentRespTask().execute(mOrientationManager.getLocation());
     }
 
     @Override
