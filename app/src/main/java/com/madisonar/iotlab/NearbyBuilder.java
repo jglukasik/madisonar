@@ -38,9 +38,9 @@ public class NearbyBuilder
                 JSONObject container = new JSONObject(rawJSON);
 
                 JSONObject response = container.getJSONObject("response");
-                double newTime = response.getDouble("mUnixTime");
-                double newRequestLat = response.getDouble("mRequestLat");
-                double newRequestLng = response.getDouble("mRequestLng");
+                double newTime = response.getDouble("unixTime");
+                double newRequestLat = response.getDouble("requestLat");
+                double newRequestLng = response.getDouble("requestLng");
                 JSONArray buildingJSONArray = response.getJSONArray("buildings");
                 for (int i = 0; i < buildingJSONArray.length(); i++)
                 {
@@ -93,6 +93,7 @@ public class NearbyBuilder
     }
 
     public ArrayList<Building> getBuildings() {
+        // Note: We're doing this unsafely on purpose so that it DOES change on others.
         return mBuildings;
     }
 }
