@@ -9,6 +9,11 @@
             "name": "Shoreline Amphitheatre",
             "latitude": 37.426778,
             "longitude": -122.080733
+        },
+        {
+            "name": "Fuckin' Bascom Hill",
+            "latitude": 43.075171,
+            "longitude": -89.402343
         }
     ]
 }
