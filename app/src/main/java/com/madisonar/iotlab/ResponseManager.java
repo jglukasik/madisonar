@@ -157,4 +157,14 @@ public class ResponseManager implements OrientationManager.OnChangedListener
         return mCurrentResp;
     }
 
+    public Building getCurrentBuildingViaHeading( float heading ){
+        double headingDoubs = (double) heading;
+        for (Building b : mCurrentResp.getBuildings()){
+            if ( ( headingDoubs  < b.getHeadingRight() ) &&
+                    headingDoubs > b.getHeadingLeft() ){
+                return b;
+            }
+        }
+        return new Building(0, 0, 0, 0, 0, 0, "NO BUILDING FOUND");
+    }
 }

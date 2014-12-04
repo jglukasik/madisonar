@@ -81,6 +81,9 @@ public class CompassRenderer implements DirectRenderingCallback {
         public void onOrientationChanged(OrientationManager orientationManager) {
             mCompassView.setHeading(orientationManager.getHeading());
 
+            Log.w("MadisonAR:", "Orientation changed to "+orientationManager.getHeading()
+                    +" and Building at that location is of name: "+mResponseManager.getCurrentBuildingViaHeading(orientationManager.getHeading()));
+
             boolean oldTooSteep = mTooSteep;
             mTooSteep = (Math.abs(orientationManager.getPitch()) > TOO_STEEP_PITCH_DEGREES);
             if (mTooSteep != oldTooSteep) {
