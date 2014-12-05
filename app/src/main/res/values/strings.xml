@@ -18,7 +18,7 @@
 
     <!-- Application name for the Compass. The name could appear in the disambiguation
         menu. [CHAR LIMIT=30] -->
-    <string name="app_name">Compass</string>
+    <string name="app_name">MadisonAR</string>
 
     <!-- Abbreviations for the 16 compass points, starting at north and going clockwise 22.5 degrees
         at each step. [CHAR LIMIT=3] -->
@@ -69,9 +69,10 @@
     <!-- Tips and other labels -->
     <!-- Label displayed next to landmark pins that shows the name of the landmark and its distance in kilometers. [CHAR LIMIT=45] -->
     <string name="place_text_format">%1$s (%2$s km)</string>
+    <string name="building_text_format">%1$ - %2$m</string>
     <!-- Tip message warning the user to keep Glass horizontal to use the compass. [CHAR LIMIT=45] -->
-    <string name="pitch_too_steep">Keep Glass horizontal to use the compass</string>
+    <string name="pitch_too_steep">Keep Glass horizontal! It\'s hard to know where you\'re facing.</string>
     <!-- Tip message warning the user that Glass is detecting too much magnetic interference to be accurate. [CHAR LIMIT=45] -->
-    <string name="magnetic_interference">Glass is detecting too much interference</string>
+    <string name="magnetic_interference">The Hardware Compass Sensor is experiencing interference.</string>
 
 </resources>

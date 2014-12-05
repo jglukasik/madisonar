@@ -35,7 +35,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
-import com.madisonar.iotlab.R;
 import com.madisonar.iotlab.model.Place;
 import com.madisonar.iotlab.util.MathUtils;
 
@@ -47,7 +46,7 @@ import java.util.List;
  * Draws a stylized compass, with text labels at the cardinal and ordinal directions, and tick
  * marks at the half-winds. The red "needles" in the display mark the current heading.
  */
-public class CompassView extends View {
+public class MadisonarView extends View {
 
     /** Various dimensions and other drawing-related constants. */
     private static final float NEEDLE_WIDTH = 6;
@@ -97,15 +96,15 @@ public class CompassView extends View {
     private final String[] mDirections;
     private final ValueAnimator mAnimator;
 
-    public CompassView(Context context) {
+    public MadisonarView(Context context) {
         this(context, null, 0);
     }
 
-    public CompassView(Context context, AttributeSet attrs) {
+    public MadisonarView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CompassView(Context context, AttributeSet attrs, int defStyle) {
+    public MadisonarView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         mPaint = new Paint();

@@ -27,7 +27,6 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 
-import com.madisonar.iotlab.R;
 import com.google.android.glass.timeline.LiveCard;
 import com.google.android.glass.timeline.LiveCard.PublishMode;
 import com.madisonar.iotlab.model.Landmarks;
@@ -37,7 +36,7 @@ import com.madisonar.iotlab.util.MathUtils;
  * The main application service that manages the lifetime of the compass live card and the objects
  * that help out with orientation tracking and landmarks.
  */
-public class CompassService extends Service {
+public class MadisonarService extends Service {
 
     private static final String LIVE_CARD_TAG = "compass";
 
@@ -77,7 +76,7 @@ public class CompassService extends Service {
     private TextToSpeech mSpeech;
 
     private LiveCard mLiveCard;
-    private CompassRenderer mRenderer;
+    private MadisonarRenderer mRenderer;
 
     @Override
     public void onCreate() {
@@ -113,13 +112,13 @@ public class CompassService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (mLiveCard == null) {
             mLiveCard = new LiveCard(this, LIVE_CARD_TAG);
-            mRenderer = new CompassRenderer(this, mOrientationManager, mResponseManager, mLandmarks);
+            mRenderer = new MadisonarRenderer(this, mOrientationManager, mResponseManager, mLandmarks);
 
             mLiveCard.setDirectRenderingEnabled(true).getSurfaceHolder().addCallback(mRenderer);
             mLiveCard.setVoiceActionEnabled(true);
 
             // Display the options menu when the live card is tapped.
-            Intent menuIntent = new Intent(this, CompassMenuActivity.class);
+            Intent menuIntent = new Intent(this, MadisonarMenuActivity.class);
             menuIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             mLiveCard.setAction(PendingIntent.getActivity(this, 0, menuIntent, 0));
             mLiveCard.attach(this);
