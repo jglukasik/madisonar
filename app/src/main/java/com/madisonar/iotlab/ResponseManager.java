@@ -83,14 +83,14 @@ public class ResponseManager implements OrientationManager.OnChangedListener
                 throw new IllegalArgumentException();
             }
             HttpClient httpC = new DefaultHttpClient();
-            String url = "http://www.madisonar.com:8000/locationService";
+            String url = "http://www.madisonar.com:8000/inView";
             HttpPost httpP = new HttpPost(url);
             // To hold our paramters.
             List<NameValuePair> params = new ArrayList<NameValuePair>(2);
             // MadisonAR server expects two key value pairs, lat and lng to determine location and
             // return JSON corresponding to information that the application needs.
-            params.add(new BasicNameValuePair("lat", "43.075171"));
-            params.add(new BasicNameValuePair("lng", "-89.402343"));
+            //params.add(new BasicNameValuePair("lat", "43.075171"));
+            //params.add(new BasicNameValuePair("lng", "-89.402343"));
             // Update our HTTPPost with the new parameters
             httpP.setEntity(new UrlEncodedFormEntity(params));
             // Execute the command and get the entity representing it so we can get the content.
@@ -157,14 +157,39 @@ public class ResponseManager implements OrientationManager.OnChangedListener
         return mCurrentResp;
     }
 
-    public Building getCurrentBuildingViaHeading( float heading ){
-        double headingDoubs = (double) heading;
-        for (Building b : mCurrentResp.getBuildings()){
-            if ( ( headingDoubs  < b.getHeadingRight() ) &&
-                    headingDoubs > b.getHeadingLeft() ){
-                return b;
+    public String getCurrentBuildingViaHeading( float heading ){
+        String toRet = "";
+        try {
+            double headingDoubs = (double) heading;
+            ArrayList<Building> possible = new ArrayList<Building>();
+            for (Building b : mCurrentResp.getBuildings())
+            {
+                if (b.getHeadingRight() > b.getHeadingLeft())
+                {
+                    if ((headingDoubs < b.getHeadingRight()) &&
+                            (headingDoubs > b.getHeadingLeft()))
+                    {
+                        possible.add(b);
+                    }
+                }
+                else
+                {
+                    if ((headingDoubs < b.getHeadingRight()) ||
+                            headingDoubs > b.getHeadingLeft()) {
+                        possible.add(b);
+                    }
+                }
+            }
+            for (Building b : possible) {
+                if (!toRet.equals("")) {
+                    toRet += " & ";
+                }
+                toRet += b.getName();
             }
         }
-        return new Building(0, 0, 0, 0, 0, 0, "NO BUILDING FOUND");
+        catch(NullPointerException e){
+            toRet = "NullPTR";
+        }
+        return toRet;
     }
 }
