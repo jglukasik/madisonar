@@ -8,13 +8,13 @@ public class Building {
     private final double mLongitudeLeft;
     private final double mLatitudeRight;
     private final double mLongitudeRight;
-    private final double mHeadingRight;
-    private final double mHeadingLeft;
+    private final float mHeadingRight;
+    private final float mHeadingLeft;
     private final String mName;
 
     public Building(double latL, double longL,
                     double latR, double longR,
-                    double headR, double headL,
+                    float headR, float headL,
                     String name)
     {
         mLatitudeLeft = latL;
@@ -28,7 +28,7 @@ public class Building {
 
     public double[] getCoordsRight(){ double[] toReturn = {mLatitudeRight, mLongitudeRight}; return toReturn; }
     public double[] getCoordsLeft() { double[] toReturn = {mLatitudeLeft, mLongitudeLeft}; return toReturn; }
-    public double getHeadingLeft()  { return mHeadingLeft; }
-    public double getHeadingRight() { return mHeadingRight; }
+    public float getHeadingLeft()  { return mHeadingLeft; }
+    public float getHeadingRight() { return mHeadingRight; }
     public String getName()         { return mName; }
 }

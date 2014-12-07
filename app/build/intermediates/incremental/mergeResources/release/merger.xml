@@ -60,11 +60,11 @@ true
 <ns1:g id="direction" >
 %2$s
                     </ns1:g></string>
-                <string name="pitch_too_steep" >Keep Glass horizontal! It\'s hard to know where you\'re facing.
+                <string name="pitch_too_steep" >Keep Glass horizontal to use the compass
                 </string>
-                <string name="magnetic_interference" >The Hardware Compass Sensor is experiencing interference.
+                <string name="magnetic_interference" >Glass is detecting too much interference
                 </string>
-                <string name="app_name" >MadisonAR
+                <string name="app_name" >Compass
                 </string>
 
                 <string-array name="direction_abbreviations" >
@@ -118,8 +118,6 @@ NNW
                     </item>
                 </string-array>
 
-                <string name="building_text_format" >%1$ - %2$m
-                </string>
                 <string name="place_text_format" >%1$s (%2$s km)
                 </string>
 
@@ -175,13 +173,13 @@ north north west
                 </string-array>
             </file>
             <file
-                name="bascomesponsereal"
-                path="/home/sielicki/AndroidStudioProjects/madisonar/app/src/main/res/raw/bascomesponsereal.json"
+                name="landmarks"
+                path="/home/sielicki/AndroidStudioProjects/madisonar/app/src/main/res/raw/landmarks.json"
                 qualifiers=""
                 type="raw" />
             <file
-                name="landmarks"
-                path="/home/sielicki/AndroidStudioProjects/madisonar/app/src/main/res/raw/landmarks.json"
+                name="bascomhillresponse"
+                path="/home/sielicki/AndroidStudioProjects/madisonar/app/src/main/res/raw/bascomhillresponse.json"
                 qualifiers=""
                 type="raw" />
             <file
@@ -361,11 +359,11 @@ north north west
                 </string-array>
             </file>
         </source>
-        <source path="/home/sielicki/AndroidStudioProjects/madisonar/app/build/generated/res/rs/debug" />
-        <source path="/home/sielicki/AndroidStudioProjects/madisonar/app/build/generated/res/generated/debug" />
+        <source path="/home/sielicki/AndroidStudioProjects/madisonar/app/build/generated/res/rs/release" />
+        <source path="/home/sielicki/AndroidStudioProjects/madisonar/app/build/generated/res/generated/release" />
     </dataSet>
-    <dataSet config="debug" >
-        <source path="/home/sielicki/AndroidStudioProjects/madisonar/app/src/debug/res" />
+    <dataSet config="release" >
+        <source path="/home/sielicki/AndroidStudioProjects/madisonar/app/src/release/res" />
     </dataSet>
 
 </merger>

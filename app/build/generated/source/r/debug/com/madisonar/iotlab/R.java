@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.google.android.glass.sample.compass;
+package com.madisonar.iotlab;
 
 public final class R {
     public static final class array {
@@ -38,17 +38,19 @@ public final class R {
         public static final int compass=0x7f0a0000;
     }
     public static final class raw {
-        public static final int landmarks=0x7f050000;
+        public static final int bascomesponsereal=0x7f050000;
+        public static final int landmarks=0x7f050001;
     }
     public static final class string {
         public static final int app_name=0x7f080000;
-        public static final int magnetic_interference=0x7f080001;
-        public static final int pitch_too_steep=0x7f080002;
-        public static final int place_text_format=0x7f080003;
-        public static final int read_aloud=0x7f080004;
-        public static final int spoken_heading_format=0x7f080005;
-        public static final int spoken_heading_format_one=0x7f080006;
-        public static final int stop_this=0x7f080007;
+        public static final int building_text_format=0x7f080001;
+        public static final int magnetic_interference=0x7f080002;
+        public static final int pitch_too_steep=0x7f080003;
+        public static final int place_text_format=0x7f080004;
+        public static final int read_aloud=0x7f080005;
+        public static final int spoken_heading_format=0x7f080006;
+        public static final int spoken_heading_format_one=0x7f080007;
+        public static final int stop_this=0x7f080008;
     }
     public static final class style {
         public static final int MenuTheme=0x7f090000;

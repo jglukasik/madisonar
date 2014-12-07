@@ -98,7 +98,7 @@ public class MadisonarService extends Service {
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         mOrientationManager = new OrientationManager(sensorManager, locationManager);
-        mResponseManager = new ResponseManager(locationManager, mOrientationManager);
+        mResponseManager = new ResponseManager(this.getApplicationContext(), locationManager, mOrientationManager);
         mResponseManager.forceUpdateCurrentRespTask();
         mLandmarks = new Landmarks(this);
     }

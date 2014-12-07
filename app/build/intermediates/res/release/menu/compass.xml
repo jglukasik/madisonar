@@ -14,5 +14,14 @@
      limitations under the License.
 -->
 
-<trigger command="EXPLORE_NEARBY" />
-<!-- From: file:/home/sielicki/AndroidStudioProjects/madisonar/app/src/main/res/xml/compass_show.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/read_aloud"
+        android:title="@string/read_aloud"
+        android:icon="@drawable/ic_read_aloud"/>
+    <item
+        android:id="@+id/stop_this"
+        android:title="@string/stop_this"
+        android:icon="@drawable/ic_stop_this"/>
+</menu>
+<!-- From: file:/home/sielicki/AndroidStudioProjects/madisonar/app/src/main/res/menu/compass.xml -->

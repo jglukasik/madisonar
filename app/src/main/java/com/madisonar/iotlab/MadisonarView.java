@@ -32,9 +32,11 @@ import android.graphics.Typeface;
 import android.location.Location;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
+import com.madisonar.iotlab.model.Building;
 import com.madisonar.iotlab.model.Place;
 import com.madisonar.iotlab.util.MathUtils;
 
@@ -50,11 +52,16 @@ public class MadisonarView extends View {
 
     /** Various dimensions and other drawing-related constants. */
     private static final float NEEDLE_WIDTH = 6;
-    private static final float NEEDLE_HEIGHT = 125;
-    private static final int NEEDLE_COLOR = Color.RED;
+    private static final float NEEDLE_HEIGHT = 60;
+    private static final int   NEEDLE_COLOR = Color.GREEN;
+
+    private static final float BUILDING_BOX_TOP = -90.0f;
+    private static final float BUILDING_BOX_BOT = 90.0f;
+    private static final float BUILDING_BOX_THICK = 6;
+
     private static final float TICK_WIDTH = 2;
     private static final float TICK_HEIGHT = 10;
-    private static final float DIRECTION_TEXT_HEIGHT = 84.0f;
+    private static final float DIRECTION_TEXT_HEIGHT = 128.0f;
     private static final float PLACE_TEXT_HEIGHT = 22.0f;
     private static final float PLACE_PIN_WIDTH = 14.0f;
     private static final float PLACE_TEXT_LEADING = 4.0f;
@@ -83,10 +90,18 @@ public class MadisonarView extends View {
     private float mAnimatedHeading;
 
     private OrientationManager mOrientation;
+    private ResponseManager mResponseManager;
+    private ArrayList<Building> mBuildings;
+    //replace me with yours
     private List<Place> mNearbyPlaces;
 
     private final Paint mPaint;
     private final Paint mTickPaint;
+    private final Paint mBoxPaint;
+    private final Paint mBoxFillPaint;
+    private final Paint mBuildingLabelPaint;
+
+
     private final Path mPath;
     private final TextPaint mPlacePaint;
     private final Bitmap mPlaceBitmap;
@@ -126,6 +141,25 @@ public class MadisonarView extends View {
         mPlacePaint.setTextSize(PLACE_TEXT_HEIGHT);
         mPlacePaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
 
+        mBoxPaint = new Paint();
+        mBoxPaint.setStyle(Paint.Style.STROKE);
+        mBoxPaint.setStrokeWidth(BUILDING_BOX_THICK);
+        mBoxPaint.setColor(Color.RED);
+
+        mBoxFillPaint = new Paint();
+        mBoxFillPaint.setStyle(Paint.Style.FILL);
+        mBoxFillPaint.setStrokeWidth(BUILDING_BOX_THICK);
+        mBoxFillPaint.setColor(Color.GRAY);
+
+        mBuildingLabelPaint = new TextPaint();
+        mBuildingLabelPaint.setStyle(Paint.Style.FILL);
+        mBuildingLabelPaint.setAntiAlias(true);
+        mBuildingLabelPaint.setColor(Color.WHITE);
+        mBuildingLabelPaint.setTextSize(PLACE_TEXT_HEIGHT);
+        mBuildingLabelPaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+
+
+
         mPath = new Path();
         mTextBounds = new Rect();
         mAllBounds = new ArrayList<Rect>();
@@ -155,6 +189,10 @@ public class MadisonarView extends View {
      */
     public void setOrientationManager(OrientationManager orientationManager) {
         mOrientation = orientationManager;
+    }
+
+    public void setResponseManager(ResponseManager responseManager) {
+        mResponseManager = responseManager;
     }
 
     /**
@@ -188,6 +226,10 @@ public class MadisonarView extends View {
         mNearbyPlaces = places;
     }
 
+    public void setBuildingsList(ArrayList<Building> bs){
+        mBuildings = bs;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -206,6 +248,7 @@ public class MadisonarView extends View {
         // right.
         for (int i = -1; i <= 1; i++) {
             drawPlaces(canvas, pixelsPerDegree, i * pixelsPerDegree * 360);
+            drawBuildings(canvas, pixelsPerDegree, i * pixelsPerDegree * 360);
         }
 
         drawCompassDirections(canvas, pixelsPerDegree);
@@ -243,6 +286,25 @@ public class MadisonarView extends View {
                 // Draw a tick mark for the odd indices.
                 canvas.drawLine(i * degreesPerTick * pixelsPerDegree, -TICK_HEIGHT / 2, i
                         * degreesPerTick * pixelsPerDegree, TICK_HEIGHT / 2, mTickPaint);
+            }
+        }
+    }
+
+
+    private void drawBuildings(Canvas canvas, float pixelsPerDegree, float offset){
+        mBuildings = mResponseManager.getCurrentResp().getBuildings();
+        if (mBuildings != null){
+            synchronized (mBuildings){
+                Location userLocation = mOrientation.getLocation();
+                mAllBounds.clear();
+                for (Building b : mBuildings){
+                    //if (b.getName().equals("Education Building")){
+                    //    continue;
+                    //}
+                    canvas.drawRect(offset + b.getHeadingLeft() * pixelsPerDegree, BUILDING_BOX_TOP, offset + b.getHeadingRight() * pixelsPerDegree, BUILDING_BOX_BOT, mBoxPaint);
+                    canvas.drawRect(offset + b.getHeadingLeft() * pixelsPerDegree, BUILDING_BOX_TOP, offset + b.getHeadingRight() * pixelsPerDegree, BUILDING_BOX_BOT, mBoxFillPaint);
+                    canvas.drawText(b.getName(), offset + b.getHeadingLeft() * pixelsPerDegree, BUILDING_BOX_TOP, mBuildingLabelPaint);
+                }
             }
         }
     }

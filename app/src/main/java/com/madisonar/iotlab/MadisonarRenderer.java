@@ -122,6 +122,7 @@ public class MadisonarRenderer implements DirectRenderingCallback {
         mLandmarks = landmarks;
 
         mMadisonarView.setOrientationManager(mOrientationManager);
+        mMadisonarView.setResponseManager(mResponseManager);
     }
 
     @Override

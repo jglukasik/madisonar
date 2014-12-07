@@ -1,11 +1,11 @@
 /**
  * Automatically generated file. DO NOT MODIFY
  */
-package com.google.android.glass.sample.compass;
+package com.madisonar.iotlab;
 
 public final class BuildConfig {
   public static final boolean DEBUG = Boolean.parseBoolean("true");
-  public static final String PACKAGE_NAME = "com.google.android.glass.sample.compass";
+  public static final String PACKAGE_NAME = "com.madisonar.iotlab";
   public static final String BUILD_TYPE = "debug";
   public static final String FLAVOR = "";
   public static final int VERSION_CODE = 10;
