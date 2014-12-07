@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.google.android.glass.timeline.LiveCard;
 import com.google.android.glass.view.WindowUtils;
@@ -63,6 +64,7 @@ public class MadisonarMenuActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mFromLiveCardVoice = getIntent().getBooleanExtra(LiveCard.EXTRA_FROM_LIVECARD_VOICE, false);
         if (mFromLiveCardVoice) {
             // When activated by voice from a live card, enable voice commands. The menu
