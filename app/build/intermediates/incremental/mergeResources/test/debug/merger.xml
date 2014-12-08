@@ -1,10 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="2" >
-
-    <dataSet config="main" >
-        <source path="/home/sielicki/AndroidStudioProjects/madisonar/app/src/androidTest/res" />
-        <source path="/home/sielicki/AndroidStudioProjects/madisonar/app/build/generated/res/rs/test/debug" />
-        <source path="/home/sielicki/AndroidStudioProjects/madisonar/app/build/generated/res/generated/test/debug" />
-    </dataSet>
-
-</merger>
+<merger version="3"><dataSet config="main"><source path="/home/sielicki/AndroidStudioProjects/Madisonar/app/src/androidTest/res"/><source path="/home/sielicki/AndroidStudioProjects/Madisonar/app/build/generated/res/rs/test/debug"/><source path="/home/sielicki/AndroidStudioProjects/Madisonar/app/build/generated/res/generated/test/debug"/></dataSet><mergedItems/></merger>

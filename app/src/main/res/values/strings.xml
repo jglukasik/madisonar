@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2013 The Android Open Source Project
+<resources>
 
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-
-          http://www.apache.org/licenses/LICENSE-2.0
-
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
-
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-
-    <!-- Application name for the Compass. The name could appear in the disambiguation
-        menu. [CHAR LIMIT=30] -->
-    <string name="app_name">MadisonAR</string>
-
-    <!-- Abbreviations for the 16 compass points, starting at north and going clockwise 22.5 degrees
-        at each step. [CHAR LIMIT=3] -->
     <string-array name="direction_abbreviations">
         <item>N</item>
         <item>NNE</item>
@@ -41,38 +20,11 @@
         <item>NNW</item>
     </string-array>
 
-    <!-- Spoken text -->
-    <!-- Spoken message for the user's current compass heading, when degrees is not equal to 1. For example, "45 degrees northeast". [CHAR LIMIT=none] -->
-    <string name="spoken_heading_format"><xliff:g id="degrees">%1$d</xliff:g> degrees <xliff:g id="direction">%2$s</xliff:g></string>
-    <!-- Spoken message for the user's current compass heading, when degrees is equal to 1. [CHAR LIMIT=none] -->
-    <string name="spoken_heading_format_one"><xliff:g id="degrees">%1$d</xliff:g> degree <xliff:g id="direction">%2$s</xliff:g></string>
-    <!-- Spoken versions of the 16 compass points, in the same order as the direction_abbreviations array above. [CHAR LIMIT=none] -->
-    <string-array name="spoken_directions">
-        <item>north</item>
-        <item>north north east</item>
-        <item>north east</item>
-        <item>east north east</item>
-        <item>east</item>
-        <item>east south east</item>
-        <item>south east</item>
-        <item>south south east</item>
-        <item>south</item>
-        <item>south south west</item>
-        <item>south west</item>
-        <item>west south west</item>
-        <item>west</item>
-        <item>west north west</item>
-        <item>north west</item>
-        <item>north north west</item>
-    </string-array>
-
-    <!-- Tips and other labels -->
-    <!-- Label displayed next to landmark pins that shows the name of the landmark and its distance in kilometers. [CHAR LIMIT=45] -->
-    <string name="place_text_format">%1$s (%2$s km)</string>
-    <string name="building_text_format">%1$ - %2$m</string>
-    <!-- Tip message warning the user to keep Glass horizontal to use the compass. [CHAR LIMIT=45] -->
-    <string name="pitch_too_steep">Keep Glass horizontal! It\'s hard to know where you\'re facing.</string>
-    <!-- Tip message warning the user that Glass is detecting too much magnetic interference to be accurate. [CHAR LIMIT=45] -->
-    <string name="magnetic_interference">The Hardware Compass Sensor is experiencing interference.</string>
+    <string name="app_name">Madisonar</string>
+    <string name="title_activity_madisonar">Madisonar</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="magnetic_interference">Compass is experiencing interference.</string>
+    <string name="pitch_too_steep">You\'re looking too high, cannot read the compass.</string>
+    <string name="building_format">$1% - $2%m</string>
 
 </resources>

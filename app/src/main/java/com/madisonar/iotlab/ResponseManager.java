@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.madisonar.iotlab.model.Building;
 import com.madisonar.iotlab.model.Response;
+import com.madisonar.madisonar.R;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -29,7 +30,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class ResponseManager implements OrientationManager.OnChangedListener
 {

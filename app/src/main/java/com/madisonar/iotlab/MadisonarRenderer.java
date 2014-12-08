@@ -29,11 +29,9 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.glass.timeline.DirectRenderingCallback;
-import com.madisonar.iotlab.model.Landmarks;
-import com.madisonar.iotlab.model.Place;
 
-import java.util.List;
+import com.madisonar.madisonar.R;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -41,7 +39,7 @@ import java.util.concurrent.TimeUnit;
  * also manages the lifetime of the sensor and location event listeners (through
  * {@link OrientationManager}) so that tracking only occurs when the card is visible.
  */
-public class MadisonarRenderer implements DirectRenderingCallback {
+public class MadisonarRenderer implements SurfaceHolder.Callback {
 
     private static final String TAG = MadisonarRenderer.class.getSimpleName();
 
@@ -72,7 +70,6 @@ public class MadisonarRenderer implements DirectRenderingCallback {
     private final TextView mTipsView;
     private final OrientationManager mOrientationManager;
     private final ResponseManager mResponseManager;
-    private final Landmarks mLandmarks;
 
     private final OrientationManager.OnChangedListener mCompassListener =
             new OrientationManager.OnChangedListener() {
@@ -91,9 +88,6 @@ public class MadisonarRenderer implements DirectRenderingCallback {
         @Override
         public void onLocationChanged(OrientationManager orientationManager) {
             Location location = orientationManager.getLocation();
-            List<Place> places = mLandmarks.getNearbyLandmarks(
-                    location.getLatitude(), location.getLongitude());
-            mMadisonarView.setNearbyPlaces(places);
         }
 
         @Override
@@ -108,18 +102,16 @@ public class MadisonarRenderer implements DirectRenderingCallback {
      * orientation manager, and landmark collection.
      */
     public MadisonarRenderer(Context context, OrientationManager orientationManager,
-                             ResponseManager responseManager, Landmarks landmarks) {
+                             ResponseManager responseManager, MadisonarView madisonarView) {
         LayoutInflater inflater = LayoutInflater.from(context);
         mLayout = (FrameLayout) inflater.inflate(R.layout.compass, null);
-        mLayout.setWillNotDraw(false);
 
-        mMadisonarView = (MadisonarView) mLayout.findViewById(R.id.compass);
+        mMadisonarView = madisonarView;
         mTipsContainer = (RelativeLayout) mLayout.findViewById(R.id.tips_container);
         mTipsView = (TextView) mLayout.findViewById(R.id.tips_view);
 
         mOrientationManager = orientationManager;
         mResponseManager = responseManager;
-        mLandmarks = landmarks;
 
         mMadisonarView.setOrientationManager(mOrientationManager);
         mMadisonarView.setResponseManager(mResponseManager);
@@ -146,7 +138,6 @@ public class MadisonarRenderer implements DirectRenderingCallback {
         updateRenderingState();
     }
 
-    @Override
     public void renderingPaused(SurfaceHolder holder, boolean paused) {
         mRenderingPaused = paused;
         updateRenderingState();
@@ -164,13 +155,6 @@ public class MadisonarRenderer implements DirectRenderingCallback {
                 mOrientationManager.addOnChangedListener(mCompassListener);
                 mOrientationManager.start();
 
-                if (mOrientationManager.hasLocation()) {
-                    Location location = mOrientationManager.getLocation();
-                    List<Place> nearbyPlaces = mLandmarks.getNearbyLandmarks(
-                        location.getLatitude(), location.getLongitude());
-                    mMadisonarView.setNearbyPlaces(nearbyPlaces);
-                }
-
                 mRenderThread = new RenderThread();
                 mRenderThread.start();
             } else {
@@ -179,7 +163,6 @@ public class MadisonarRenderer implements DirectRenderingCallback {
 
                 mOrientationManager.removeOnChangedListener(mCompassListener);
                 mOrientationManager.stop();
-
             }
         }
     }

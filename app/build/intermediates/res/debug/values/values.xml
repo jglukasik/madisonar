@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
-
-    <!-- From: file:/home/sielicki/AndroidStudioProjects/madisonar/app/src/main/res/values/strings.xml -->
-    <eat-comment />
-
+<resources>
+    <!-- From: file:/home/sielicki/AndroidStudioProjects/Madisonar/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
     <string-array name="direction_abbreviations">
         <item>N</item>
         <item>NNE</item>
@@ -22,57 +20,23 @@
         <item>NW</item>
         <item>NNW</item>
     </string-array>
-    <string-array name="spoken_directions">
-        <item>north</item>
-        <item>north north east</item>
-        <item>north east</item>
-        <item>east north east</item>
-        <item>east</item>
-        <item>east south east</item>
-        <item>south east</item>
-        <item>south south east</item>
-        <item>south</item>
-        <item>south south west</item>
-        <item>south west</item>
-        <item>west south west</item>
-        <item>west</item>
-        <item>west north west</item>
-        <item>north west</item>
-        <item>north north west</item>
-    </string-array>
-    <!-- From: file:/home/sielicki/AndroidStudioProjects/madisonar/app/src/main/res/values/dimens.xml -->
-    <eat-comment />
-
+    <!-- From: file:/home/sielicki/AndroidStudioProjects/Madisonar/app/src/main/res/values/dimens.xml -->
+    <eat-comment/>
     <dimen name="card_margin">40px</dimen>
-    <!-- From: file:/home/sielicki/AndroidStudioProjects/madisonar/app/src/main/res/values/strings.xml -->
-    <eat-comment />
-
-    <string name="app_name">MadisonAR</string>
-    <string name="building_text_format">%1$ - %2$m</string>
-    <string name="magnetic_interference">The Hardware Compass Sensor is experiencing interference.</string>
-    <string name="pitch_too_steep">Keep Glass horizontal! It\'s hard to know where you\'re facing.</string>
-    <string name="place_text_format">%1$s (%2$s km)</string>
-    <!-- From: file:/home/sielicki/AndroidStudioProjects/madisonar/app/src/main/res/values/menu_strings.xml -->
-    <eat-comment />
-
-    <string name="read_aloud">READ_ALOUD</string>
-    <!-- From: file:/home/sielicki/AndroidStudioProjects/madisonar/app/src/main/res/values/strings.xml -->
-    <eat-comment />
-
-    <string name="spoken_heading_format"><ns1:g id="degrees">%1$d</ns1:g> degrees <ns1:g id="direction">%2$s</ns1:g></string>
-    <string name="spoken_heading_format_one"><ns1:g id="degrees">%1$d</ns1:g> degree <ns1:g id="direction">%2$s</ns1:g></string>
-    <!-- From: file:/home/sielicki/AndroidStudioProjects/madisonar/app/src/main/res/values/menu_strings.xml -->
-    <eat-comment />
-
-    <string name="stop_this">STOP_THIS</string>
-    <!-- From: file:/home/sielicki/AndroidStudioProjects/madisonar/app/src/main/res/values/styles.xml -->
-    <eat-comment />
-
-    <style name="MenuTheme" parent="@android:style/Theme.DeviceDefault">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@null</item>
+    <!-- From: file:/home/sielicki/AndroidStudioProjects/Madisonar/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="app_name">Madisonar</string>
+    <string name="building_format">$1% - $2%m</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="magnetic_interference">Compass is experiencing interference.</string>
+    <string name="pitch_too_steep">You\'re looking too high, cannot read the compass.</string>
+    <string name="title_activity_madisonar">Madisonar</string>
+    <!-- From: file:/home/sielicki/AndroidStudioProjects/Madisonar/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="AppTheme" parent="@android:style/Theme.DeviceDefault">
+       <item name="android:windowBackground">@android:color/transparent</item>
+       <item name="android:colorBackgroundCacheHint">@null</item>
+       <item name="android:windowIsTranslucent">true</item>
+       <item name="android:windowAnimationStyle">@null</item>
     </style>
-
 </resources>

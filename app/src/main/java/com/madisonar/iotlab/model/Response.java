@@ -1,5 +1,7 @@
 package com.madisonar.iotlab.model;
 
+import com.madisonar.iotlab.model.Building;
+
 import java.util.ArrayList;
 
 public class Response
