@@ -26,6 +26,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.text.TextPaint;
@@ -50,26 +51,18 @@ public class MadisonarView extends SurfaceView {
     /** Various dimensions and other drawing-related constants. */
     private static final float NEEDLE_WIDTH = 6;
     private static final float NEEDLE_HEIGHT = 60;
-    private static final int   NEEDLE_COLOR = Color.GREEN;
+    private static final int   NEEDLE_COLOR = Color.WHITE;
 
-    private static final float BUILDING_BOX_TOP = -90.0f;
-    private static final float BUILDING_BOX_BOT = 90.0f;
-    private static final float BUILDING_BOX_THICK = 12;
-    private static final int[] colors = {Color.BLUE, Color.CYAN, Color.GREEN, Color.YELLOW, Color.RED, Color.MAGENTA, Color.LTGRAY, Color.WHITE};
 
     private static final float TICK_WIDTH = 2;
     private static final float TICK_HEIGHT = 10;
-    private static final float DIRECTION_TEXT_HEIGHT = 128.0f;
-    private static final float PLACE_TEXT_HEIGHT = 22.0f;
-    private static final float PLACE_PIN_WIDTH = 14.0f;
-    private static final float PLACE_TEXT_LEADING = 4.0f;
-    private static final float PLACE_TEXT_MARGIN = 8.0f;
+    private static final float DIRECTION_TEXT_HEIGHT = 36.0f;
+    private static final float BUILDING_TEXT_HEIGHT = 22.0f;
 
-    /**
-     * The maximum number of places names to allow to stack vertically underneath the compass
-     * direction labels.
-     */
-    private static final int MAX_OVERLAPPING_PLACE_NAMES = 4;
+    private static final float BUILDING_BOX_TOP = -180.0f + DIRECTION_TEXT_HEIGHT * 1.5f;
+    private static final float BUILDING_BOX_BOT = 90.0f;
+    private static final float BUILDING_BOX_THICK = 12;
+    private static final int[] colors = {Color.BLUE, Color.CYAN, Color.GREEN, Color.YELLOW, Color.RED, Color.MAGENTA, Color.LTGRAY, Color.WHITE};
 
     /**
      * If the difference between two consecutive headings is less than this value, the canvas will
@@ -91,7 +84,7 @@ public class MadisonarView extends SurfaceView {
     private ResponseManager mResponseManager;
     private ArrayList<Building> mBuildings;
 
-    private final Paint mPaint;
+    private final Paint mDirectionPaint;
     private final Paint mTickPaint;
     private final Paint mBoxPaint;
     private final Paint mBoxFillPaint;
@@ -99,9 +92,7 @@ public class MadisonarView extends SurfaceView {
 
 
     private final Path mPath;
-    private final TextPaint mPlacePaint;
     private final Rect mTextBounds;
-    private final List<Rect> mAllBounds;
     private final NumberFormat mDistanceFormat;
     private final String[] mDirections;
     private final ValueAnimator mAnimator;
@@ -117,11 +108,12 @@ public class MadisonarView extends SurfaceView {
     public MadisonarView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        mPaint = new Paint();
-        mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setAntiAlias(true);
-        mPaint.setTextSize(DIRECTION_TEXT_HEIGHT);
-        mPaint.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
+        // Paints for directions and ticks
+        mDirectionPaint = new Paint();
+        mDirectionPaint.setStyle(Paint.Style.FILL);
+        mDirectionPaint.setAntiAlias(true);
+        mDirectionPaint.setTextSize(DIRECTION_TEXT_HEIGHT);
+        mDirectionPaint.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
 
         mTickPaint = new Paint();
         mTickPaint.setStyle(Paint.Style.STROKE);
@@ -129,18 +121,12 @@ public class MadisonarView extends SurfaceView {
         mTickPaint.setAntiAlias(true);
         mTickPaint.setColor(Color.WHITE);
 
-        mPlacePaint = new TextPaint();
-        mPlacePaint.setStyle(Paint.Style.FILL);
-        mPlacePaint.setAntiAlias(true);
-        mPlacePaint.setColor(Color.WHITE);
-        mPlacePaint.setTextSize(PLACE_TEXT_HEIGHT);
-        mPlacePaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
 
+        // Paints for our Buildings
         mBoxPaint = new Paint();
         mBoxPaint.setStyle(Paint.Style.STROKE);
         mBoxPaint.setStrokeWidth(BUILDING_BOX_THICK);
-        mBoxPaint.setColor(Color.RED);
-
+        mBoxPaint.setColor(colors[0]);
 
         mBoxFillPaint = new Paint();
         mBoxFillPaint.setStyle(Paint.Style.FILL);
@@ -148,17 +134,14 @@ public class MadisonarView extends SurfaceView {
         mBoxFillPaint.setColor(Color.DKGRAY);
 
         mBuildingLabelPaint = new TextPaint();
-        mBuildingLabelPaint.setStyle(Paint.Style.FILL);
+        mBuildingLabelPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         mBuildingLabelPaint.setAntiAlias(true);
         mBuildingLabelPaint.setColor(Color.WHITE);
-        mBuildingLabelPaint.setTextSize(PLACE_TEXT_HEIGHT);
-        mBuildingLabelPaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
-
-
+        mBuildingLabelPaint.setTextSize(BUILDING_TEXT_HEIGHT);
+        mBuildingLabelPaint.setTypeface(Typeface.create("sans-serif-light", Typeface.BOLD));
 
         mPath = new Path();
         mTextBounds = new Rect();
-        mAllBounds = new ArrayList<Rect>();
 
         mDistanceFormat = NumberFormat.getNumberInstance();
         mDistanceFormat.setMinimumFractionDigits(0);
@@ -238,9 +221,8 @@ public class MadisonarView extends SurfaceView {
 
         canvas.restore();
 
-        mPaint.setColor(NEEDLE_COLOR);
-        drawNeedle(canvas, false);
-        drawNeedle(canvas, true);
+        mDirectionPaint.setColor(NEEDLE_COLOR);
+        drawNeedle(canvas);
     }
 
     /**
@@ -252,7 +234,7 @@ public class MadisonarView extends SurfaceView {
     private void drawCompassDirections(Canvas canvas, float pixelsPerDegree) {
         float degreesPerTick = 360.0f / mDirections.length;
 
-        mPaint.setColor(Color.WHITE);
+        mDirectionPaint.setColor(Color.WHITE);
 
         // We draw two extra ticks/labels on each side of the view so that the
         // full range is visible even when the heading is approximately 0.
@@ -260,15 +242,18 @@ public class MadisonarView extends SurfaceView {
             if (MathUtils.mod(i, 2) == 0) {
                 // Draw a text label for the even indices.
                 String direction = mDirections[MathUtils.mod(i, mDirections.length)];
-                mPaint.getTextBounds(direction, 0, direction.length(), mTextBounds);
+                mDirectionPaint.getTextBounds(direction, 0, direction.length(), mTextBounds);
 
                 canvas.drawText(direction,
                         i * degreesPerTick * pixelsPerDegree - mTextBounds.width() / 2,
-                        mTextBounds.height() / 2, mPaint);
+                        (canvas.getHeight() / -2) + DIRECTION_TEXT_HEIGHT, mDirectionPaint);
             } else {
                 // Draw a tick mark for the odd indices.
-                canvas.drawLine(i * degreesPerTick * pixelsPerDegree, -TICK_HEIGHT / 2, i
-                        * degreesPerTick * pixelsPerDegree, TICK_HEIGHT / 2, mTickPaint);
+                canvas.drawLine(i * degreesPerTick * pixelsPerDegree,
+                        (canvas.getHeight() / -2) + DIRECTION_TEXT_HEIGHT / 2 - (TICK_HEIGHT / 2),
+                        i * degreesPerTick * pixelsPerDegree,
+                        (canvas.getHeight() / -2) + DIRECTION_TEXT_HEIGHT / 2 + (TICK_HEIGHT / 2),
+                        mTickPaint);
             }
         }
     }
@@ -281,21 +266,39 @@ public class MadisonarView extends SurfaceView {
             if (mBuildings != null){
                 synchronized (mBuildings){
                     Location userLocation = mOrientation.getLocation();
-                    mAllBounds.clear();
                     for (Building b : mBuildings){
+                        RectF toDraw;
+                        //get the bounds
                         if (b.getHeadingRight() < b.getHeadingLeft()){
-//                        canvas.drawRect(offset + b.getHeadingLeft() * pixelsPerDegree, BUILDING_BOX_TOP, offset + b.getHeadingRight() * pixelsPerDegree, BUILDING_BOX_BOT, mBoxPaint);
-//                        canvas.drawRect(offset + b.getHeadingLeft() * pixelsPerDegree, BUILDING_BOX_TOP, offset + b.getHeadingRight() * pixelsPerDegree, BUILDING_BOX_BOT, mBoxFillPaint);
-                            canvas.drawRect(offset + b.getHeadingLeft() * pixelsPerDegree, BUILDING_BOX_TOP, offset + (360.0f + b.getHeadingRight()) * pixelsPerDegree, BUILDING_BOX_BOT, mBoxPaint);
-                            canvas.drawRect(offset + b.getHeadingLeft() * pixelsPerDegree, BUILDING_BOX_TOP, offset + (360.0f + b.getHeadingRight()) * pixelsPerDegree, BUILDING_BOX_BOT, mBoxFillPaint);
-                            canvas.drawText(b.getName(), offset + b.getHeadingLeft() * pixelsPerDegree, BUILDING_BOX_TOP, mBuildingLabelPaint);
-//                        canvas.drawRect(offset + -5.0f * pixelsPerDegree, BUILDING_BOX_TOP, offset + b.getHeadingRight() * pixelsPerDegree, BUILDING_BOX_BOT, mBoxPaint);
-//                        canvas.drawRect(offset + -5.0f * pixelsPerDegree, BUILDING_BOX_TOP, offset + b.getHeadingRight() * pixelsPerDegree, BUILDING_BOX_BOT, mBoxFillPaint);
+                            //draw the rectangles
+                            toDraw = new RectF(
+                                    offset + b.getHeadingLeft() * pixelsPerDegree,
+                                    BUILDING_BOX_TOP,
+                                    offset + (360.0f + b.getHeadingRight()) * pixelsPerDegree,
+                                    BUILDING_BOX_BOT);
                         }
                         else{
-                            canvas.drawRect(offset + b.getHeadingLeft() * pixelsPerDegree, BUILDING_BOX_TOP, offset + b.getHeadingRight() * pixelsPerDegree, BUILDING_BOX_BOT, mBoxPaint);
-                            canvas.drawRect(offset + b.getHeadingLeft() * pixelsPerDegree, BUILDING_BOX_TOP, offset + b.getHeadingRight() * pixelsPerDegree, BUILDING_BOX_BOT, mBoxFillPaint);
-                            canvas.drawText(b.getName(), offset + b.getHeadingLeft() * pixelsPerDegree, BUILDING_BOX_TOP, mBuildingLabelPaint);
+                            toDraw = new RectF(
+                                    offset + b.getHeadingLeft() * pixelsPerDegree,
+                                    BUILDING_BOX_TOP,
+                                    offset + b.getHeadingRight() * pixelsPerDegree,
+                                    BUILDING_BOX_BOT);
+                        }
+                        //draw the boxes
+                        canvas.drawRect(toDraw, mBoxPaint);
+                        canvas.drawRect(toDraw, mBoxFillPaint);
+                        //draw the text
+                        Rect textBounds = new Rect();
+                        mBuildingLabelPaint.getTextBounds(b.getName(),0, b.getName().length(), textBounds);
+                        if (textBounds.width() < toDraw.width()){
+                            //draw it centered.
+                            canvas.drawText(b.getName(),
+                                    toDraw.centerX() - ( textBounds.width() / 2 ),
+                                    toDraw.centerY() + ( textBounds.height() / 2),
+                                    mBuildingLabelPaint);
+                        }
+                        else{
+                            canvas.drawLine(toDraw.centerX(), toDraw.centerY(), toDraw.centerX(), toDraw.bottom + toDraw.centerY() / 16, mTickPaint);
                         }
                         colorIndex++;
                         if (colorIndex >= colors.length ){ colorIndex = 0;}
@@ -313,22 +316,11 @@ public class MadisonarView extends SurfaceView {
      * Draws a needle that is centered at the top or bottom of the compass.
      *
      * @param canvas the {@link android.graphics.Canvas} upon which to draw
-     * @param bottom true to draw the bottom needle, or false to draw the top needle
      */
-    private void drawNeedle(Canvas canvas, boolean bottom) {
+    private void drawNeedle(Canvas canvas) {
         float centerX = getWidth() / 2.0f;
-        float origin;
-        float sign;
-
-        // Flip the vertical coordinates if we're drawing the bottom needle.
-        if (bottom) {
-            origin = getHeight();
-            sign = -1;
-        } else {
-            origin = 0;
-            sign = 1;
-        }
-
+        float origin = getHeight();
+        float sign = -1;
         float needleHalfWidth = NEEDLE_WIDTH / 2;
 
         mPath.reset();
@@ -339,7 +331,7 @@ public class MadisonarView extends SurfaceView {
         mPath.lineTo(centerX + needleHalfWidth, origin);
         mPath.close();
 
-        canvas.drawPath(mPath, mPaint);
+        canvas.drawPath(mPath, mDirectionPaint);
     }
 
     /**
