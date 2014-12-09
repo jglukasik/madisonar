@@ -13,7 +13,7 @@
             },
             {
                 "bName": "South Hall",
-                "lHeading": 229.617819730988,
+                "lHeading": 230.617819730988,
                 "lLat": 43.0746259871506,
                 "lLng": -89.4030610370108,
                 "rHeading": 248.717506379384,
@@ -33,20 +33,20 @@
             },
             {
                 "bName": "Law Building",
-                "lHeading": 140.763228978257,
+                "lHeading": 142.763228978257,
                 "lLat": 43.0747633926997,
                 "lLng": -89.4018872982606,
-                "rHeading": 228.617819730988,
+                "rHeading": 227.617819730988,
                 "rLat": 43.0748645765317,
                 "rLng": -89.4028191207048,
                 "card": "lawbuildingstatic"
             },
             {
                 "bName": "Education Building",
-                "lHeading": 331.556465415391,
+                "lHeading": 334.556465415391,
                 "lLat": 43.0755399841736,
                 "lLng": -89.4026281388754,
-                "rHeading": 36.9290714688838,
+                "rHeading": 33.9290714688838,
                 "rLat": 43.0755340785721,
                 "rLng": -89.4019694042776,
                 "card": "educationbuildingstatic"

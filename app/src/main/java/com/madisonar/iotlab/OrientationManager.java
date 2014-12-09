@@ -40,6 +40,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class OrientationManager {
 
+    private static final float DEMO_OFFSET = 90.0f;
+
     /**
      * The minimum distance desired between location notifications.
      */
@@ -277,7 +279,7 @@ public class OrientationManager {
      * @return the user's current heading, in degrees
      */
     public float getHeading() {
-        return mHeading;
+        return MathUtils.mod((mHeading + DEMO_OFFSET), 360.0f);
     }
 
     /**
