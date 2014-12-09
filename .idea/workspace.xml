@@ -24,17 +24,10 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.madisonar.madisonar" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ba73470-cfa7-4555-8557-4186940a6a74" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bascomhallstatic.jpg" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/bascomhallstatic.jpg" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/educationbuildingstatic.jpg" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/educationbuildingstatic.jpg" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/lawbuildingstatic.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/lawbuildingstatic.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/musichallstatic.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/musichallstatic.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/northhallstatic.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/northhallstatic.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/radiohallstatic.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/radiohallstatic.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/sciencehallstatic.jpg" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/sciencehallstatic.jpg" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/southhallstatic.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/southhallstatic.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/madisonar/iotlab/OrientationManager.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/madisonar/iotlab/OrientationManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/raw/bascomesponsereal.json" afterPath="$PROJECT_DIR$/app/src/main/res/raw/bascomesponsereal.json" />
+    <list default="true" id="2ba73470-cfa7-4555-8557-4186940a6a74" name="Default" comment="done! :)">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/raw/.bascomesponsereal.json.swp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/bascomhallstatic.jpg" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/bascomhallstatic.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/model_data.bin" afterPath="$PROJECT_DIR$/build/intermediates/model_data.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Madisonar.iws" />
@@ -581,6 +574,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
@@ -818,8 +813,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1020,7 +1013,11 @@
       <created>1418090879977</created>
       <updated>1418090879977</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="done! :)">
+      <created>1418092871352</created>
+      <updated>1418092871352</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1105,7 +1102,8 @@
     </option>
     <MESSAGE value="New immersive stuff.&#10;&#10;Removed any traces of their representation of a landmark." />
     <MESSAGE value="Added some stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added some stuff" />
+    <MESSAGE value="done! :)" />
+    <option name="LAST_COMMIT_MESSAGE" value="done! :)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1113,6 +1111,30 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/madisonar/iotlab/MadisonarRenderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4896">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/madisonar/iotlab/MadisonarView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5593" max-vertical-offset="7973">
+          <caret line="329" column="132" selection-start-line="329" selection-start-column="132" selection-end-line="329" selection-end-column="132" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/madisonar/iotlab/OrientationManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="5355">
+          <caret line="42" column="50" selection-start-line="42" selection-start-column="50" selection-end-line="42" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/madisonar/iotlab/MadisonarRenderer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4896">
@@ -1160,13 +1182,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/compass.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="918">
           <caret line="40" column="41" selection-start-line="40" selection-start-column="41" selection-end-line="40" selection-end-column="41" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/build/intermediates/manifests/full/debug/AndroidManifest.xml">
@@ -1259,13 +1281,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/compass.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="964">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/madisonar/iotlab/model/Building.java">
