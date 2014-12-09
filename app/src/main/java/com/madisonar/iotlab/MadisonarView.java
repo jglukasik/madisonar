@@ -21,6 +21,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -40,7 +42,6 @@ import com.madisonar.madisonar.R;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Draws a stylized compass, with text labels at the cardinal and ordinal directions, and tick
@@ -84,11 +85,18 @@ public class MadisonarView extends SurfaceView {
     private ResponseManager mResponseManager;
     private ArrayList<Building> mBuildings;
 
+    private Building infoBuilding;
+    private boolean viewInfo = false;
+    private BitmapFactory mBitmapFactory;
+    private Bitmap currentSlide;
+    private Paint mBitmapPaint;
+
     private final Paint mDirectionPaint;
     private final Paint mTickPaint;
     private final Paint mBoxPaint;
     private final Paint mBoxFillPaint;
     private final Paint mBuildingLabelPaint;
+    private final Paint mBuildingPointerLinePaint;
 
 
     private final Path mPath;
@@ -139,6 +147,16 @@ public class MadisonarView extends SurfaceView {
         mBuildingLabelPaint.setColor(Color.WHITE);
         mBuildingLabelPaint.setTextSize(BUILDING_TEXT_HEIGHT);
         mBuildingLabelPaint.setTypeface(Typeface.create("sans-serif-light", Typeface.BOLD));
+
+        mBuildingPointerLinePaint = new Paint();
+        mBuildingPointerLinePaint.setStyle(Paint.Style.STROKE);
+        mBuildingPointerLinePaint.setStrokeWidth(BUILDING_BOX_THICK / 2);
+        mBuildingPointerLinePaint.setAntiAlias(true);
+        mBuildingPointerLinePaint.setColor(Color.BLACK);
+
+
+        mBitmapPaint = new Paint();
+        mBitmapFactory = new BitmapFactory();
 
         mPath = new Path();
         mTextBounds = new Rect();
@@ -200,29 +218,39 @@ public class MadisonarView extends SurfaceView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if (!viewInfo){
+            currentSlide = null;
+            // The view displays 90 degrees across its width so that one 90 degree head rotation is
+            // equal to one full view cycle.
+            float pixelsPerDegree = getWidth() / 90.0f;
+            float centerX = getWidth() / 2.0f;
+            float centerY = getHeight() / 2.0f;
 
-        // The view displays 90 degrees across its width so that one 90 degree head rotation is
-        // equal to one full view cycle.
-        float pixelsPerDegree = getWidth() / 90.0f;
-        float centerX = getWidth() / 2.0f;
-        float centerY = getHeight() / 2.0f;
+            canvas.save();
+            canvas.translate(-mAnimatedHeading * pixelsPerDegree + centerX, centerY);
 
-        canvas.save();
-        canvas.translate(-mAnimatedHeading * pixelsPerDegree + centerX, centerY);
+            // In order to ensure that places on a boundary close to 0 or 360 get drawn correctly, we
+            // draw them three times; once to the left, once at the "true" bearing, and once to the
+            // right.
+            for (int i = -1; i <= 1; i++) {
+                drawBuildings(canvas, pixelsPerDegree, i * pixelsPerDegree * 360);
+            }
 
-        // In order to ensure that places on a boundary close to 0 or 360 get drawn correctly, we
-        // draw them three times; once to the left, once at the "true" bearing, and once to the
-        // right.
-        for (int i = -1; i <= 1; i++) {
-            drawBuildings(canvas, pixelsPerDegree, i * pixelsPerDegree * 360);
+            drawCompassDirections(canvas, pixelsPerDegree);
+
+            canvas.restore();
+
+            mDirectionPaint.setColor(NEEDLE_COLOR);
+            drawNeedle(canvas);
+        }
+        else{
+            if (currentSlide == null){
+                int resourceID = this.getResources().getIdentifier(infoBuilding.getCardRes(), "drawable", "com.madisonar.madisonar");
+                currentSlide = mBitmapFactory.decodeResource(this.getResources(), resourceID);
+            }
+            canvas.drawBitmap(currentSlide, 0, 0, mBitmapPaint);
         }
 
-        drawCompassDirections(canvas, pixelsPerDegree);
-
-        canvas.restore();
-
-        mDirectionPaint.setColor(NEEDLE_COLOR);
-        drawNeedle(canvas);
     }
 
     /**
@@ -298,7 +326,12 @@ public class MadisonarView extends SurfaceView {
                                     mBuildingLabelPaint);
                         }
                         else{
-                            canvas.drawLine(toDraw.centerX(), toDraw.centerY(), toDraw.centerX(), toDraw.bottom + toDraw.centerY() / 16, mTickPaint);
+                            mBuildingPointerLinePaint.setColor(colors[colorIndex]);
+                            canvas.drawLine(toDraw.centerX(), toDraw.centerY(), toDraw.centerX(), toDraw.bottom + toDraw.height() / 8, mBuildingPointerLinePaint);
+                            canvas.drawText(b.getName(),
+                                    toDraw.centerX() - ( textBounds.width() / 2 ),
+                                    toDraw.bottom + (toDraw.height() / 4) + toDraw.centerY() + ( textBounds.height() / 2),
+                                    mBuildingLabelPaint);
                         }
                         colorIndex++;
                         if (colorIndex >= colors.length ){ colorIndex = 0;}
@@ -409,5 +442,22 @@ public class MadisonarView extends SurfaceView {
                 mAnimator.start();
             }
         }
+    }
+
+    public boolean viewInfo()
+    {
+        infoBuilding = mResponseManager.getBuildingViaHeading(mOrientation.getHeading());
+        if (infoBuilding != null){
+            viewInfo = true;
+        }
+        else {
+            viewInfo = false;
+        }
+        return viewInfo;
+    }
+    public void stopViewInfo()
+    {
+        viewInfo = false;
+        infoBuilding = null;
     }
 }

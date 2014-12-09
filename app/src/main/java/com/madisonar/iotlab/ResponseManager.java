@@ -149,7 +149,8 @@ public class ResponseManager implements OrientationManager.OnChangedListener
                         currentBuilding.getDouble("rLng"),
                         (float) currentBuilding.getDouble("rHeading"),
                         (float) currentBuilding.getDouble("lHeading"),
-                        currentBuilding.getString("bName"));
+                        currentBuilding.getString("bName"),
+                        currentBuilding.getString("card"));
                 newBuildings.add(toAdd);
             }
             toReturn = new Response(newBuildings,
@@ -190,4 +191,18 @@ public class ResponseManager implements OrientationManager.OnChangedListener
         return mCurrentResp;
     }
 
+    public Building getBuildingViaHeading(float heading)
+    {
+        for (Building b : mCurrentResp.getBuildings()){
+            if (b.getHeadingLeft() > b.getHeadingRight()){
+                if (heading > b.getHeadingLeft() || heading < b.getHeadingRight()){
+                    return b;
+                }
+            }
+            else if (heading > b.getHeadingLeft() && heading < b.getHeadingRight()){
+                    return b;
+            }
+        }
+        return null;
+    }
 }
